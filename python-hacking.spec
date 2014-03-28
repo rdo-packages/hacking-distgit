@@ -1,7 +1,7 @@
 %global pypi_name hacking
 
 Name:           python-%{pypi_name}
-Version:        0.8.0
+Version:        0.8.1
 Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
@@ -56,6 +56,10 @@ sed -i 's/>.*$//' test-requirements.txt
 rm requirements.txt
 rm test-requirements.txt
 
+# python-oslo-sphinx was upstream renamed to python-oslosphinx. We still
+# use the former version.
+sed -i 's|oslosphinx|oslo.sphinx|' doc/source/conf.py
+
 %build
 %{__python} setup.py build
 
@@ -76,6 +80,9 @@ rm -rf html/.{doctrees,buildinfo}
 %{python_sitelib}/%{pypi_name}
 
 %changelog
+* Fri Mar 28 2014 Matthias Runge <mrunge@redhat.com> - 0.8.1-1
+- update to 0.8.1
+
 * Tue Nov 19 2013 Matthias Runge <mrunge@redhat.com> - 0.8.0-1
 - update to 0.8.0
 
