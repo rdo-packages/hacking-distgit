@@ -1,8 +1,8 @@
 %global pypi_name hacking
 
 Name:           python-%{pypi_name}
-Version:        0.8.1
-Release:        2%{?dist}
+Version:        0.9.1
+Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -80,6 +80,9 @@ rm -rf html/.{doctrees,buildinfo}
 %{python_sitelib}/%{pypi_name}
 
 %changelog
+* Tue Jun 10 2014 Matthias Runge <mrunge@redhat.com> - 0.9.1-1
+- update to 0.9.1
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
