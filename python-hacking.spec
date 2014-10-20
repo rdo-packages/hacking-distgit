@@ -1,7 +1,7 @@
 %global pypi_name hacking
 
 Name:           python-%{pypi_name}
-Version:        0.9.1
+Version:        0.9.2
 Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
@@ -80,6 +80,9 @@ rm -rf html/.{doctrees,buildinfo}
 %{python_sitelib}/%{pypi_name}
 
 %changelog
+* Mon Oct 20 2014 Matthias Runge <mrunge@redhat.com> - 0.9.2-1
+- udapte to 0.9.2
+
 * Tue Jun 10 2014 Matthias Runge <mrunge@redhat.com> - 0.9.1-1
 - update to 0.9.1
 
