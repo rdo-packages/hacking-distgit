@@ -1,15 +1,15 @@
 %global pypi_name hacking
 
 Name:           python-%{pypi_name}
-Version:        0.9.2
+Version:        0.10.1
 Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
 URL:            http://github.com/openstack-dev/hacking
-Source0:        http://pypi.python.org/packages/source/h/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/h/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
- 
+
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-d2to1
@@ -75,11 +75,15 @@ rm -rf html/.{doctrees,buildinfo}
 %{__python} setup.py test
 
 %files
-%doc html README.rst LICENSE
+%doc html README.rst
+%license LICENSE
 %{python_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 %{python_sitelib}/%{pypi_name}
 
 %changelog
+* Tue Mar 03 2015 Matthias Runge <mrunge@redhat.com> - 0.10.1-1
+- update to 0.10.1
+
 * Mon Oct 20 2014 Matthias Runge <mrunge@redhat.com> - 0.9.2-1
 - udapte to 0.9.2
 
