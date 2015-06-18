@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -81,6 +81,9 @@ rm -rf html/.{doctrees,buildinfo}
 %{python_sitelib}/%{pypi_name}
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Tue Mar 03 2015 Matthias Runge <mrunge@redhat.com> - 0.10.1-1
 - update to 0.10.1
 
