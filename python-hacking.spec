@@ -130,6 +130,7 @@ rm -rf html/.{doctrees,buildinfo}
 %{python_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 %{python_sitelib}/%{pypi_name}
 
+%if 0%{?with_python3}
 %files -n python3-%{pypi_name}
 %doc html README.rst
 %license LICENSE
