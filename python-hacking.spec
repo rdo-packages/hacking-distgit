@@ -7,8 +7,8 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-%{pypi_name}
-Version:        0.10.2
-Release:        1%{?dist}
+Version:        XXX
+Release:        XXX
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -17,7 +17,7 @@ Source0:        https://pypi.python.org/packages/source/h/%{pypi_name}/%{pypi_na
 BuildArch:      noarch
 
 %description
-OpenStack Hacking Guidline Enforcement
+OpenStack Hacking Guideline Enforcement
 
 %package -n python2-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
@@ -47,7 +47,7 @@ Requires: python-flake8
 Requires: python-six
 
 %description -n python2-%{pypi_name}
-OpenStack Hacking Guidline Enforcement
+OpenStack Hacking Guideline Enforcement
 
 %if 0%{?with_python3}
 %package -n python3-%{pypi_name}
@@ -82,7 +82,7 @@ OpenStack Hacking Guidline Enforcement
 %endif
 
 %prep
-%setup -q -n %{pypi_name}-%{version}
+%setup -q -n %{pypi_name}-%{upstream_version}
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
@@ -95,7 +95,7 @@ sed -i '1d' hacking/tests/test_doctest.py
 rm -rf {test-,}requirements.txt
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 # generate html docs 
 sphinx-build doc/source html
@@ -111,13 +111,13 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %install
-%{__python} setup.py install --skip-build --root %{buildroot}
+%{__python2} setup.py install --skip-build --root %{buildroot}
 %if 0%{?with_python3}
 %{__python3} setup.py install --skip-build --root %{buildroot}
 %endif
 
 %check
-%{__python} setup.py test
+%{__python2} setup.py test
 %if 0%{?with_python3}
 # "Expecting a string b" error from test library
 #rm -rf .testrepository/
@@ -127,47 +127,16 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python2-%{pypi_name}
 %doc html README.rst
 %license LICENSE
-%{python_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
-%{python_sitelib}/%{pypi_name}
+%{python2_sitelib}/*.egg-info
+%{python2_sitelib}/%{pypi_name}
 
 %if 0%{?with_python3}
 %files -n python3-%{pypi_name}
 %doc html README.rst
 %license LICENSE
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}
 %endif
 
 %changelog
-* Tue Sep 01 2015 Lukas Bezdicka <lbezdick@redhat.com> - 0.10.2-1
-- Add python3 sub package and update to 0.10.2
 
-* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Tue Mar 03 2015 Matthias Runge <mrunge@redhat.com> - 0.10.1-1
-- update to 0.10.1
-
-* Mon Oct 20 2014 Matthias Runge <mrunge@redhat.com> - 0.9.2-1
-- udapte to 0.9.2
-
-* Tue Jun 10 2014 Matthias Runge <mrunge@redhat.com> - 0.9.1-1
-- update to 0.9.1
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.1-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Fri Mar 28 2014 Matthias Runge <mrunge@redhat.com> - 0.8.1-1
-- update to 0.8.1
-
-* Tue Nov 19 2013 Matthias Runge <mrunge@redhat.com> - 0.8.0-1
-- update to 0.8.0
-
-* Tue Sep 17 2013 Matthias Runge <mrunge@redhat.com> - 0.7.2-1
-- update to 0.7.2
-
-* Fri Jun 07 2013 Matthias Runge <mrunge@redhat.com> - 0.5.3-2
-- also use checks and move requirements to rpm-requiremens
-
-* Mon Apr 29 2013 Matthias Runge <mrunge@redhat.com> - 0.5.3-1
-- Initial package.
