@@ -17,7 +17,7 @@ Source0:        https://pypi.python.org/packages/source/h/%{pypi_name}/%{pypi_na
 BuildArch:      noarch
 
 %description
-OpenStack Hacking Guidline Enforcement
+OpenStack Hacking Guideline Enforcement
 
 %package -n python2-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
@@ -47,7 +47,7 @@ Requires: python-flake8
 Requires: python-six
 
 %description -n python2-%{pypi_name}
-OpenStack Hacking Guidline Enforcement
+OpenStack Hacking Guideline Enforcement
 
 %if 0%{?with_python3}
 %package -n python3-%{pypi_name}
@@ -82,7 +82,7 @@ OpenStack Hacking Guidline Enforcement
 %endif
 
 %prep
-%setup -q -n %{pypi_name}-%{version}
+%setup -q -n %{pypi_name}-%{upstream_version}
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
@@ -95,7 +95,7 @@ sed -i '1d' hacking/tests/test_doctest.py
 rm -rf {test-,}requirements.txt
 
 %build
-%{__python} setup.py build
+%{__python2} setup.py build
 
 # generate html docs 
 sphinx-build doc/source html
@@ -111,13 +111,13 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %install
-%{__python} setup.py install --skip-build --root %{buildroot}
+%{__python2} setup.py install --skip-build --root %{buildroot}
 %if 0%{?with_python3}
 %{__python3} setup.py install --skip-build --root %{buildroot}
 %endif
 
 %check
-%{__python} setup.py test
+%{__python2} setup.py test
 %if 0%{?with_python3}
 # "Expecting a string b" error from test library
 #rm -rf .testrepository/
@@ -127,14 +127,14 @@ rm -rf html/.{doctrees,buildinfo}
 %files -n python2-%{pypi_name}
 %doc html README.rst
 %license LICENSE
-%{python_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
-%{python_sitelib}/%{pypi_name}
+%{python2_sitelib}/*.egg-info
+%{python2_sitelib}/%{pypi_name}
 
 %if 0%{?with_python3}
 %files -n python3-%{pypi_name}
 %doc html README.rst
 %license LICENSE
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}
 %endif
 
