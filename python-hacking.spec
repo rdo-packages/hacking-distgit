@@ -8,7 +8,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.10.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -139,6 +139,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.10.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Tue Sep 01 2015 Lukas Bezdicka <lbezdick@redhat.com> - 0.10.2-1
 - Add python3 sub package and update to 0.10.2
 
