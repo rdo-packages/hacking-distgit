@@ -78,7 +78,7 @@ Requires: python3-flake8
 Requires: python3-six
 
 %description  -n python3-%{pypi_name}
-OpenStack Hacking Guidline Enforcement
+OpenStack Hacking Guideline Enforcement
 %endif
 
 %prep
