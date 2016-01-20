@@ -1,3 +1,5 @@
-# UUID                                  	Group Name
-#
-6e3c826cd63ff3dc5888e96cb0a0c7ce257ff3dd	hacking-distgit-ptl
+# UUID          Group Name
+6ddfecad023c6f4fa3ac8c4d2583c502ea675a73 	Non-Interactive Users
+118cb853eadcbee2d58276720c8b412c9d2970c6       	hacking-distgit-core
+6e3c826cd63ff3dc5888e96cb0a0c7ce257ff3dd        	hacking-distgit-ptl
+global:Registered-Users		Registered Users
