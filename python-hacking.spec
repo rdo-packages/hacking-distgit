@@ -117,7 +117,7 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %check
-%{__python2} setup.py test ||:
+%{__python2} setup.py test
 %if 0%{?with_python3}
 # "Expecting a string b" error from test library
 #rm -rf .testrepository/
