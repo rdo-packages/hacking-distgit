@@ -40,6 +40,7 @@ BuildRequires:  python-six
 BuildRequires:  python-flake8
 BuildRequires:  pyflakes
 BuildRequires:  python-mccabe
+BuildRequires:  python-mock
 
 Requires: python-pbr
 Requires: pyflakes
@@ -71,6 +72,7 @@ BuildRequires:  python3-six
 BuildRequires:  python3-flake8
 BuildRequires:  python3-pyflakes
 BuildRequires:  python3-mccabe
+BuildRequires:  python3-mock
 
 Requires: python3-pbr
 Requires: python3-pyflakes
