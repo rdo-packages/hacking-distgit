@@ -177,3 +177,4 @@ rm -rf html/.{doctrees,buildinfo}
 
 * Mon Apr 29 2013 Matthias Runge <mrunge@redhat.com> - 0.5.3-1
 - Initial package.
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=e72ce1831aad4947fe07adbb8d55a79b8e16571b
