@@ -140,3 +140,4 @@ rm -rf html/.{doctrees,buildinfo}
 
 %changelog
 
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=e72ce1831aad4947fe07adbb8d55a79b8e16571b
