@@ -13,7 +13,7 @@ Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
 URL:            http://github.com/openstack-dev/hacking
-Source0:        https://pypi.python.org/packages/source/h/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
