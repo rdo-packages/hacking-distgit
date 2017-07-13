@@ -145,3 +145,4 @@ rm -rf html/.{doctrees,buildinfo}
 - Update to 0.13.0
 
 
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=5fa587dfedbf93535d19fb61e41ca117373a719c
