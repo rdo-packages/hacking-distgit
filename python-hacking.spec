@@ -23,6 +23,7 @@ OpenStack Hacking Guideline Enforcement
 Summary:        OpenStack Hacking Guideline Enforcement
 %{?python_provide:%python_provide python2-%{pypi_name}}
 
+BuildRequires:  git
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-d2to1
@@ -30,11 +31,10 @@ BuildRequires:  python-pbr
 BuildRequires:  python-sphinx
 BuildRequires:  python-flake8
 BuildRequires:  python-subunit
-BuildRequires:  python-sphinx
 BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
 BuildRequires:  python-testtools
-BuildRequires:  python-oslo-sphinx
+BuildRequires:  python-openstackdocstheme
 BuildRequires:  python-pep8
 BuildRequires:  python-six
 BuildRequires:  python-flake8
@@ -59,14 +59,11 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-d2to1
 BuildRequires:  python3-pbr
-BuildRequires:  python3-sphinx
 BuildRequires:  python3-flake8
 BuildRequires:  python3-subunit
-BuildRequires:  python3-sphinx
 BuildRequires:  python3-testrepository
 BuildRequires:  python3-testscenarios
 BuildRequires:  python3-testtools
-BuildRequires:  python3-oslo-sphinx
 BuildRequires:  python3-pep8
 BuildRequires:  python3-six
 BuildRequires:  python3-flake8
@@ -84,7 +81,7 @@ OpenStack Hacking Guideline Enforcement
 %endif
 
 %prep
-%setup -q -n %{pypi_name}-%{upstream_version}
+%autosetup -n %{pypi_name}-%{upstream_version} -S git
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 
@@ -100,9 +97,9 @@ rm -rf {test-,}requirements.txt
 %{__python2} setup.py build
 
 # generate html docs 
-sphinx-build doc/source html
+%{__python2} setup.py build_sphinx -b html
 # remove the sphinx-build leftovers
-rm -rf html/.{doctrees,buildinfo}
+rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %if 0%{?with_python3}
 %{__python3} setup.py build
@@ -127,7 +124,7 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %files -n python2-%{pypi_name}
-%doc html README.rst
+%doc doc/build/html README.rst
 %license LICENSE
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/%{pypi_name}
