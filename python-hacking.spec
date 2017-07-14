@@ -143,5 +143,3 @@ rm -rf html/.{doctrees,buildinfo}
 %changelog
 * Tue Feb 07 2017 Alfredo Moralejo <amoralej@redhat.com> 0.13.0-1
 - Update to 0.13.0
-
-
