@@ -98,6 +98,7 @@ BuildRequires:  python3-flake8
 BuildRequires:  python3-pyflakes
 BuildRequires:  python3-mccabe
 BuildRequires:  python3-mock
+BuildRequires:  openstack-macros
 
 Requires: python3-pbr
 Requires: python3-pyflakes
@@ -123,7 +124,7 @@ sed -i '1d' hacking/core.py
 # remove /usr/bin/env from tests/test_doctest.py
 sed -i '1d' hacking/tests/test_doctest.py
 
-rm -rf {test-,}requirements.txt
+%py_req_cleanup
 
 %build
 %{__python2} setup.py build
