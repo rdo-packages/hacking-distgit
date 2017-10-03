@@ -4,6 +4,8 @@
 %global with_python3 1
 %endif
 
+%global common_desc OpenStack Hacking Guideline Enforcement
+
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-%{pypi_name}
@@ -17,7 +19,7 @@ Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{versi
 BuildArch:      noarch
 
 %description
-OpenStack Hacking Guideline Enforcement
+%{common_desc}
 
 %package -n python2-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
@@ -48,7 +50,7 @@ Requires: python-flake8
 Requires: python-six
 
 %description -n python2-%{pypi_name}
-OpenStack Hacking Guideline Enforcement
+%{common_desc}
 
 %if 0%{?with_python3}
 %package -n python3-%{pypi_name}
@@ -77,7 +79,7 @@ Requires: python3-flake8
 Requires: python3-six
 
 %description  -n python3-%{pypi_name}
-OpenStack Hacking Guideline Enforcement
+%{common_desc}
 %endif
 
 %prep
