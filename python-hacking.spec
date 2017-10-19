@@ -1,7 +1,14 @@
 %global pypi_name hacking
 
-%if 0%{?fedora} > 21
+%if 0%{?fedora}
 %global with_python3 1
+# disable tests for now, see
+# https://bugs.launchpad.net/hacking/+bug/1652409
+# https://bugs.launchpad.net/hacking/+bug/1607942
+# https://bugs.launchpad.net/hacking/+bug/1652411
+%global with_tests 0
+%else
+%global with_tests 1
 %endif
 
 %global common_desc OpenStack Hacking Guideline Enforcement
@@ -16,10 +23,25 @@ Summary:        OpenStack Hacking Guideline Enforcement
 License:        ASL 2.0
 URL:            http://github.com/openstack-dev/hacking
 Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+%if 0%{?fedora}
+# Mostly adapt tests to work with both flake8 2.x and 3.x. Note,
+# local-checks feature is entirely broken with 3.x. Will send upstream
+# when I find a way to do it which doesn't involve signing my
+# firstborn over to the openstack foundation
+Patch0:         0001-Tests-adapt-to-flake8-3.x.patch
+# Hack out the 'local-checks' feature, since it doesn't work anyway,
+# to avoid the dep it introduces on pep8, and disable the test for the
+# feature. Only apply on releases with flake8 3.x.
+Patch1:         0002-Disable-local-checks.patch
+%endif
 BuildArch:      noarch
 
 %description
 %{common_desc}
+%if 0%{?fedora}
+**NOTE**: the local-check feature is DISABLED in this package! See
+https://bugs.launchpad.net/hacking/+bug/1652409 for details.
+%endif
 
 %package -n python2-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
@@ -51,6 +73,10 @@ Requires: python-six
 
 %description -n python2-%{pypi_name}
 %{common_desc}
+%if 0%{?fedora}
+**NOTE**: the local-check feature is DISABLED in this package! See
+https://bugs.launchpad.net/hacking/+bug/1652409 for details.
+%endif
 
 %if 0%{?with_python3}
 %package -n python3-%{pypi_name}
@@ -80,6 +106,10 @@ Requires: python3-six
 
 %description  -n python3-%{pypi_name}
 %{common_desc}
+%if 0%{?fedora}
+**NOTE**: the local-check feature is DISABLED in this package! See
+https://bugs.launchpad.net/hacking/+bug/1652409 for details.
+%endif
 %endif
 
 %prep
@@ -118,11 +148,12 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
 %check
+%if 0%{?with_tests}
 %{__python2} setup.py test
 %if 0%{?with_python3}
-# "Expecting a string b" error from test library
-#rm -rf .testrepository/
-#%{__python3} setup.py test
+rm -rf .testrepository/
+%{__python3} setup.py test
+%endif
 %endif
 
 %files -n python2-%{pypi_name}
@@ -133,7 +164,7 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 
 %if 0%{?with_python3}
 %files -n python3-%{pypi_name}
-%doc html README.rst
+%doc doc/build/html README.rst
 %license LICENSE
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}

@@ -1,0 +1,158 @@
+From edb5a3c985ed2d05b924c073ce2ee57db46ce928 Mon Sep 17 00:00:00 2001
+From: Javier Pena <jpena@redhat.com>
+Date: Thu, 19 Oct 2017 12:25:08 +0200
+Subject: [PATCH 1/2] Tests: adapt to flake8 3.x
+
+This changes the approach of the test suite to work with both
+flake8 2.x and 3.x. We do this by using the part of the flake8
+2.x API that the maintainers implemented as a 'legacy' API in
+3.x. This partial implementation is not sufficient to provide
+a style guide which can be used to properly initialize pep8's
+check code, as the tests previously tried to do; but it *is*
+possible to simply use the style guide object directly to run
+the tests and collect the results, which the 3.x implementation
+supports.
+
+I picked this approach based on the flake8 developers' write-up
+of the legacy API:
+http://flake8.pycqa.org/en/latest/user/python-api.html
+I simply used the API features talked about in that text.
+---
+ hacking/tests/test_doctest.py | 50 ++++++++++++++++++++++++-------------------
+ hacking/tests/test_local.py   | 28 +++++++++++++++++-------
+ 2 files changed, 48 insertions(+), 30 deletions(-)
+
+diff --git a/hacking/tests/test_doctest.py b/hacking/tests/test_doctest.py
+index cb5cca3..4c72ab9 100644
+--- a/hacking/tests/test_doctest.py
++++ b/hacking/tests/test_doctest.py
+@@ -16,10 +16,17 @@
+ 
+ import re
+ 
+-from flake8 import engine
+-import pep8
++try:
++    # flake8 2.x
++    from flake8 import engine
++except ImportError:
++    # flake8 3.x
++    from flake8.api import legacy as engine
++
+ import pkg_resources
++import re
+ import six
++import tempfile
+ import testscenarios
+ from testtools import content
+ from testtools import matchers
+@@ -39,29 +46,29 @@ class HackingTestCase(hacking.tests.TestCase):
+     def test_pep8(self):
+ 
+         # NOTE(jecarey): Add tests marked as off_by_default to enable testing
+-        turn_on = set(['H106', 'H203', 'H904', 'H204', 'H205', 'H210'])
+-        if self.options.select:
+-            turn_on.update(self.options.select)
+-        self.options.select = tuple(turn_on)
+-
+-        report = pep8.BaseReport(self.options)
+-        checker = pep8.Checker(lines=self.lines, options=self.options,
+-                               report=report)
+-        checker.check_all()
+-        self.addDetail('doctest', content.text_content(self.raw))
++        turn_on = set(['H106', 'H203', 'H204', 'H205', 'H904'])
++        if self.guide.options.select:
++            turn_on.update(self.guide.options.select)
++        self.guide.options.select = tuple(turn_on)
++        with tempfile.NamedTemporaryFile() as tempfh:
++            tempfh.write(''.join(self.lines))
++            tempfh.flush()
++            self.guide.init_report()
++            report = self.guide.check_files([tempfh.name])
++
++        stats = report.get_statistics('')
++        codes = set()
++        for stat in stats:
++            codes.update(re.findall(r'[A-Z]\d{3,4}', stat))
++
+         if self.code == 'Okay':
+-            self.assertThat(
+-                len(report.counters),
+-                matchers.Not(matchers.GreaterThan(
+-                    len(self.options.benchmark_keys))),
+-                "incorrectly found %s" % ', '.join(
+-                    [key for key in report.counters
+-                     if key not in self.options.benchmark_keys]))
++            self.assertEqual(report.total_errors, 0,
++                             "incorrectly found %s" % ', '.join(set(codes)))
+         else:
+             self.addDetail('reason',
+                            content.text_content("Failed to trigger rule %s" %
+                                                 self.code))
+-            self.assertIn(self.code, report.counters)
++            self.assertIn(self.code, codes)
+ 
+ 
+ def _get_lines(check):
+@@ -79,7 +86,6 @@ def load_tests(loader, tests, pattern):
+                                           # Ignore H104 otherwise it's
+                                           # raised on doctests.
+                                           ignore=('F', 'H104'))
+-    options = flake8_style.options
+ 
+     for entry in pkg_resources.iter_entry_points('flake8.extension'):
+         if not entry.module_name.startswith('hacking.'):
+@@ -92,6 +98,6 @@ def load_tests(loader, tests, pattern):
+             lines = [part.replace(r'\t', '\t') + '\n'
+                      for part in source.split(r'\n')]
+             file_cases.append(("%s-%s-line-%s" % (entry.name, name, lineno),
+-                              dict(lines=lines, raw=raw, options=options,
++                              dict(lines=lines, raw=raw, guide=flake8_style,
+                                    code=code)))
+     return testscenarios.load_tests_apply_scenarios(loader, tests, pattern)
+diff --git a/hacking/tests/test_local.py b/hacking/tests/test_local.py
+index e4dcc23..bff5e2f 100644
+--- a/hacking/tests/test_local.py
++++ b/hacking/tests/test_local.py
+@@ -13,8 +13,15 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ 
+-from flake8 import engine
+-import pep8
++try:
++    # flake8 2.x
++    from flake8 import engine
++except ImportError:
++    # flake8 3.x
++    from flake8.api import legacy as engine
++
++import re
++import tempfile
+ 
+ import hacking.tests
+ 
+@@ -28,9 +35,14 @@ def check(physical_line):
+ class HackingTestCase(hacking.tests.TestCase):
+     def test_local_check(self):
+         flake8_style = engine.get_style_guide(parse_argv=False, ignore='F')
+-        report = pep8.BaseReport(flake8_style.options)
+-        line = ["#this-is-the-test-phrase"]
+-        checker = pep8.Checker(lines=line, options=flake8_style.options,
+-                               report=report)
+-        checker.check_all()
+-        self.assertIn("L100", report.counters)
++        with tempfile.NamedTemporaryFile() as tempfh:
++            tempfh.write("#this-is-the-test-phrase\n")
++            tempfh.flush()
++            report = flake8_style.check_files([tempfh.name])
++
++        stats = report.get_statistics('')
++        codes = set()
++        for stat in stats:
++            codes.update(re.findall(r'[A-Z]\d{3,4}', stat))
++
++        self.assertIn("L100", codes)
+-- 
+2.13.6
+
