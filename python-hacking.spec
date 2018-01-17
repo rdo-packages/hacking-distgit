@@ -53,22 +53,20 @@ BuildRequires:  python-setuptools
 BuildRequires:  python-d2to1
 BuildRequires:  python-pbr
 BuildRequires:  python-sphinx
-BuildRequires:  python-flake8
+BuildRequires:  python-flake8 >= 2.6.0
 BuildRequires:  python-subunit
 BuildRequires:  python-testrepository
 BuildRequires:  python-testscenarios
 BuildRequires:  python-testtools
 BuildRequires:  python-openstackdocstheme
-BuildRequires:  python-pep8
 BuildRequires:  python-six
-BuildRequires:  python-flake8
 BuildRequires:  pyflakes
 BuildRequires:  python-mccabe
 BuildRequires:  python-mock
 
 Requires: python-pbr
 Requires: pyflakes
-Requires: python-flake8
+Requires: python-flake8 >= 2.6.0
 Requires: python-six
 
 %description -n python2-%{pypi_name}
@@ -87,21 +85,20 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-d2to1
 BuildRequires:  python3-pbr
-BuildRequires:  python3-flake8
+BuildRequires:  python3-flake8 >= 2.6.0
 BuildRequires:  python3-subunit
 BuildRequires:  python3-testrepository
 BuildRequires:  python3-testscenarios
 BuildRequires:  python3-testtools
-BuildRequires:  python3-pep8
+BuildRequires:  python3-pycodestyle
 BuildRequires:  python3-six
-BuildRequires:  python3-flake8
 BuildRequires:  python3-pyflakes
 BuildRequires:  python3-mccabe
 BuildRequires:  python3-mock
 
 Requires: python3-pbr
 Requires: python3-pyflakes
-Requires: python3-flake8
+Requires: python3-flake8 >= 2.6.0
 Requires: python3-six
 
 %description  -n python3-%{pypi_name}
