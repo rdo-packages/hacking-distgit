@@ -172,3 +172,4 @@ rm -rf .testrepository/
 
 %changelog
 
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=24d7eb6a40e565d17d06046f847590a472430b3e
