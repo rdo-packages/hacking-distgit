@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9b358b_8a3f0f25",
+        "filename": "python-hacking.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2018-01-19T10:33:58Z",
+      "side": 1,
+      "message": "remove it",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 88
+      },
+      "revId": "0b3b4e504f54849de1fd9cb5983fa82d675edc93",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
