@@ -16,8 +16,8 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-%{pypi_name}
-Version:        XXX
-Release:        XXX
+Version:        1.0.0
+Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -178,4 +178,7 @@ rm -rf .testrepository/
 %endif
 
 %changelog
+* Sat Feb 10 2018 RDO <dev@lists.rdoproject.org> 1.0.0-1
+- Update to 1.0.0
+
 
