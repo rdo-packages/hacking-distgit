@@ -50,25 +50,35 @@ Summary:        OpenStack Hacking Guideline Enforcement
 
 BuildRequires:  git
 BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
-BuildRequires:  python-d2to1
-BuildRequires:  python-pbr
-BuildRequires:  python-sphinx
-BuildRequires:  python-flake8 >= 2.6.0
-BuildRequires:  python-subunit
-BuildRequires:  python-testrepository
-BuildRequires:  python-testscenarios
-BuildRequires:  python-testtools
-BuildRequires:  python-openstackdocstheme
-BuildRequires:  python-six
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-pbr
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-subunit
+BuildRequires:  python2-testrepository
+BuildRequires:  python2-testscenarios
+BuildRequires:  python2-testtools
+BuildRequires:  python2-openstackdocstheme
+BuildRequires:  python2-six
+BuildRequires:  python2-mock
+BuildRequires:  python2-flake8 >= 2.6.0
+%if 0%{?fedora} || 0%{?rhel} > 7
+BuildRequires:  python2-pyflakes
+BuildRequires:  python2-d2to1
+BuildRequires:  python2-mccabe
+%else
 BuildRequires:  pyflakes
+BuildRequires:  python-d2to1
 BuildRequires:  python-mccabe
-BuildRequires:  python-mock
+%endif
 
-Requires: python-pbr
+Requires: python2-pbr
+Requires: python2-flake8 >= 2.6.0
+Requires: python2-six
+%if 0%{?fedora} || 0%{?rhel} > 7
+Requires: python2-pyflakes
+%else
 Requires: pyflakes
-Requires: python-flake8 >= 2.6.0
-Requires: python-six
+%endif
 
 %description -n python2-%{pypi_name}
 %{common_desc}
