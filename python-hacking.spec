@@ -1,5 +1,10 @@
 %global pypi_name hacking
 
+%global commit 865398f0c9a20883ef1ab68a9f80ffd74b9098e8
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+# DO NOT REMOVE ALPHATAG
+%global alphatag .%{shortcommit}git
+
 %if 0%{?fedora}
 %global with_python3 1
 # disable tests for now, see
@@ -13,16 +18,17 @@
 
 %global common_desc OpenStack Hacking Guideline Enforcement
 
-%{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+%{!?upstream_version: %global upstream_version %{commit}}
 
 Name:           python-%{pypi_name}
-Version:        XXX
-Release:        XXX
+Version:        1.0.0
+Release:        1%{?alphatag}%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
 URL:            http://github.com/openstack-dev/hacking
-Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:        https://github.com/openstack-dev/%{pypi_name}/archive/%{commit}.tar.gz#/%{pypi_name}-%{shortcommit}.tar.gz
+#Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 %if 0%{?fedora}
 # FIXME(apevec) patches do not apply after https://review.openstack.org/514934
 # Mostly adapt tests to work with both flake8 2.x and 3.x. Note,
@@ -178,4 +184,8 @@ rm -rf .testrepository/
 %endif
 
 %changelog
+* Sat Feb 10 2018 RDO <dev@lists.rdoproject.org> 1.0.0-1
+- Update to 1.0.0
+- Use commit 865398f0 to include pep8 to pycodestyle transition path
+
 
