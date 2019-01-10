@@ -11,6 +11,8 @@
 %global with_tests 1
 %endif
 
+%global with_doc 1
+
 %global common_desc OpenStack Hacking Guideline Enforcement
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
@@ -52,15 +54,17 @@ BuildRequires:  git
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pbr
-BuildRequires:  python2-sphinx
 BuildRequires:  python2-subunit
 BuildRequires:  python2-testrepository
 BuildRequires:  python2-testscenarios
 BuildRequires:  python2-testtools
-BuildRequires:  python2-openstackdocstheme
 BuildRequires:  python2-six
 BuildRequires:  python2-mock
 BuildRequires:  python2-flake8 >= 2.6.0
+%if 0%{?with_doc}
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-openstackdocstheme
+%endif
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:  python2-pyflakes
 BuildRequires:  python2-d2to1
@@ -135,17 +139,15 @@ rm -rf {test-,}requirements.txt
 %build
 %{__python2} setup.py build
 
-# generate html docs 
+%if 0%{?with_doc}
+# generate html docs
 %{__python2} setup.py build_sphinx -b html
 # remove the sphinx-build leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
+%endif
 
 %if 0%{?with_python3}
 %{__python3} setup.py build
-# generate html docs 
-#sphinx-build doc/source html
-# remove the sphinx-build leftovers
-#rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %install
@@ -164,14 +166,22 @@ rm -rf .testrepository/
 %endif
 
 %files -n python2-%{pypi_name}
+%if 0%{?with_doc}
 %doc doc/build/html README.rst
+%else
+%doc README.rst
+%endif
 %license LICENSE
 %{python2_sitelib}/*.egg-info
 %{python2_sitelib}/%{pypi_name}
 
 %if 0%{?with_python3}
 %files -n python3-%{pypi_name}
+%if 0%{?with_doc}
 %doc doc/build/html README.rst
+%else
+%doc README.rst
+%endif
 %license LICENSE
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}
