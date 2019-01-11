@@ -1,6 +1,6 @@
 %global pypi_name hacking
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} > 7
 %global with_python3 1
 # disable tests for now, see
 # https://bugs.launchpad.net/hacking/+bug/1652409
