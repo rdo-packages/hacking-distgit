@@ -189,3 +189,4 @@ PYTHON=python3 %{__python3} setup.py test
 
 %changelog
 
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=5ba742aa22a13d0169c2a51bf80f2822021b34fe
