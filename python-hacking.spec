@@ -1,7 +1,17 @@
+# Macros for py2/py3 compatibility
+%if 0%{?fedora} || 0%{?rhel} > 7
+%global pyver %{python3_pkgversion}
+%else
+%global pyver 2
+%endif
+%global pyver_bin python%{pyver}
+%global pyver_sitelib %python%{pyver}_sitelib
+%global pyver_install %py%{pyver}_install
+%global pyver_build %py%{pyver}_build
+# End of macros for py2/py3 compatibility
 %global pypi_name hacking
 
 %if 0%{?fedora} || 0%{?rhel} > 7
-%global with_python3 1
 # disable tests for now, see
 # https://bugs.launchpad.net/hacking/+bug/1652409
 # https://bugs.launchpad.net/hacking/+bug/1607942
@@ -46,81 +56,52 @@ BuildArch:      noarch
 https://bugs.launchpad.net/hacking/+bug/1652409 for details.
 %endif
 
-%package -n python2-%{pypi_name}
+%package -n python%{pyver}-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
-%{?python_provide:%python_provide python2-%{pypi_name}}
+%{?python_provide:%python_provide python%{pyver}-%{pypi_name}}
+%if %{pyver} == 3
+Obsoletes: python2-%{pypi_name} < %{version}-%{release}
+%endif
 
 BuildRequires:  git
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-pbr
-BuildRequires:  python2-subunit
-BuildRequires:  python2-testrepository
-BuildRequires:  python2-testscenarios
-BuildRequires:  python2-testtools
-BuildRequires:  python2-six
-BuildRequires:  python2-mock
-BuildRequires:  python2-flake8 >= 2.6.0
+BuildRequires:  python%{pyver}-devel
+BuildRequires:  python%{pyver}-setuptools
+BuildRequires:  python%{pyver}-pbr
+BuildRequires:  python%{pyver}-subunit
+BuildRequires:  python%{pyver}-testrepository
+BuildRequires:  python%{pyver}-testscenarios
+BuildRequires:  python%{pyver}-testtools
+BuildRequires:  python%{pyver}-six
+BuildRequires:  python%{pyver}-mock
+BuildRequires:  python%{pyver}-flake8 >= 2.6.0
 %if 0%{?with_doc}
-BuildRequires:  python2-sphinx
-BuildRequires:  python2-openstackdocstheme
+BuildRequires:  python%{pyver}-sphinx
+BuildRequires:  python%{pyver}-openstackdocstheme
 %endif
-%if 0%{?fedora} || 0%{?rhel} > 7
-BuildRequires:  python2-pyflakes
-BuildRequires:  python2-d2to1
-BuildRequires:  python2-mccabe
-%else
+# Handle python2 exception
+%if %{pyver} == 2
 BuildRequires:  pyflakes
-BuildRequires:  python-d2to1
 BuildRequires:  python-mccabe
-%endif
-
-Requires: python2-pbr
-Requires: python2-flake8 >= 2.6.0
-Requires: python2-six
-%if 0%{?fedora} || 0%{?rhel} > 7
-Requires: python2-pyflakes
 %else
+BuildRequires:  python%{pyver}-pyflakes
+BuildRequires:  python%{pyver}-mccabe
+%endif
+
+Requires: python%{pyver}-pbr
+Requires: python%{pyver}-flake8 >= 2.6.0
+Requires: python%{pyver}-six
+# Handle python2 exception
+%if %{pyver} == 2
 Requires: pyflakes
+%else
+Requires: python%{pyver}-pyflakes
 %endif
 
-%description -n python2-%{pypi_name}
+%description -n python%{pyver}-%{pypi_name}
 %{common_desc}
 %if 0%{?fedora}
 **NOTE**: the local-check feature is DISABLED in this package! See
 https://bugs.launchpad.net/hacking/+bug/1652409 for details.
-%endif
-
-%if 0%{?with_python3}
-%package -n python3-%{pypi_name}
-Summary:        OpenStack Hacking Guideline Enforcement
-%{?python_provide:%python_provide python3-%{pypi_name}}
-
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-d2to1
-BuildRequires:  python3-pbr
-BuildRequires:  python3-flake8 >= 2.6.0
-BuildRequires:  python3-subunit
-BuildRequires:  python3-testrepository
-BuildRequires:  python3-testscenarios
-BuildRequires:  python3-testtools
-BuildRequires:  python3-six
-BuildRequires:  python3-pyflakes
-BuildRequires:  python3-mccabe
-BuildRequires:  python3-mock
-
-Requires: python3-pbr
-Requires: python3-pyflakes
-Requires: python3-flake8 >= 2.6.0
-Requires: python3-six
-
-%description  -n python3-%{pypi_name}
-%{common_desc}
-%if 0%{?fedora}
-**NOTE**: the local-check feature is DISABLED in this package! See
-https://bugs.launchpad.net/hacking/+bug/1652409 for details.
-%endif
 %endif
 
 %prep
@@ -137,55 +118,31 @@ sed -i '1d' hacking/tests/test_doctest.py
 rm -rf {test-,}requirements.txt
 
 %build
-%{__python2} setup.py build
+%{pyver_bin} setup.py build
 
 %if 0%{?with_doc}
 # generate html docs
-%{__python2} setup.py build_sphinx -b html
-# remove the sphinx-build leftovers
+%{pyver_bin} setup.py build_sphinx -b html
+# remove the sphinx-build-%{pyver} leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo}
 %endif
 
-%if 0%{?with_python3}
-%{__python3} setup.py build
-%endif
-
 %install
-%{__python2} setup.py install --skip-build --root %{buildroot}
-%if 0%{?with_python3}
-%{__python3} setup.py install --skip-build --root %{buildroot}
-%endif
+%{pyver_install}
 
 %check
 %if 0%{?with_tests}
-PYTHON=python2 %{__python2} setup.py test
-%if 0%{?with_python3}
-rm -rf .testrepository/
-PYTHON=python3 %{__python3} setup.py test
-%endif
+PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %endif
 
-%files -n python2-%{pypi_name}
+%files -n python%{pyver}-%{pypi_name}
 %if 0%{?with_doc}
 %doc doc/build/html README.rst
 %else
 %doc README.rst
 %endif
 %license LICENSE
-%{python2_sitelib}/*.egg-info
-%{python2_sitelib}/%{pypi_name}
-
-%if 0%{?with_python3}
-%files -n python3-%{pypi_name}
-%if 0%{?with_doc}
-%doc doc/build/html README.rst
-%else
-%doc README.rst
-%endif
-%license LICENSE
-%{python3_sitelib}/*.egg-info
-%{python3_sitelib}/%{pypi_name}
-%endif
+%{pyver_sitelib}/*.egg-info
+%{pyver_sitelib}/%{pypi_name}
 
 %changelog
-
