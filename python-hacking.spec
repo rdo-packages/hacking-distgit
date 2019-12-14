@@ -143,3 +143,4 @@ PYTHON=python%{pyver} %{pyver_bin} setup.py test
 %{pyver_sitelib}/%{pypi_name}
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=172d34813dfbcbbba68552f7f607483c8f5eca5f
