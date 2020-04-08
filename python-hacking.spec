@@ -85,7 +85,7 @@ BuildRequires:  python%{pyver}-mccabe
 %endif
 
 Requires: python%{pyver}-pbr
-Requires: python%{pyver}-flake8 >= 2.6.0
+Requires: python%{pyver}-flake8 >= 3.6.0
 Requires: python%{pyver}-six
 # Handle python2 exception
 %if %{pyver} == 2
