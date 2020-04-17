@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e74c2a5f_55c75543",
+        "filename": "python-hacking.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 403
+      },
+      "writtenOn": "2020-04-17T12:30:12Z",
+      "side": 1,
+      "message": "let\u0027s cleanup these conditions",
+      "revId": "96f5999298160de3a6980800c3c8a83bb49e414a",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7",
+      "unresolved": false
+    }
+  ]
+}
