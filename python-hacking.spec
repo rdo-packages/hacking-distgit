@@ -1,5 +1,11 @@
 %global pypi_name hacking
 
+# disable tests for now, see
+# https://bugs.launchpad.net/hacking/+bug/1652409
+# https://bugs.launchpad.net/hacking/+bug/1607942
+# https://bugs.launchpad.net/hacking/+bug/1652411
+%global with_tests 0
+
 %global with_doc 1
 
 %global common_desc OpenStack Hacking Guideline Enforcement
@@ -96,7 +102,9 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{py3_install}
 
 %check
+%if 0%{?with_tests}
 %{__python3} setup.py test
+%endif
 
 %files -n python3-%{pypi_name}
 %if 0%{?with_doc}
