@@ -109,3 +109,4 @@ rm -rf doc/build/html/.{doctrees,buildinfo}
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+# REMOVEME: error caused by commit http://git.openstack.org/cgit/openstack-dev/hacking/commit/?id=865398f0c9a20883ef1ab68a9f80ffd74b9098e8
