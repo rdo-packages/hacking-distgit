@@ -64,7 +64,7 @@ BuildRequires:  python3-pyflakes
 BuildRequires:  python3-mccabe
 
 Requires: python3-pbr
-Requires: python3-flake8 >= 3.6.0
+Requires: python3-flake8 >= 3.8.0
 Requires: python3-six
 Requires: python3-pyflakes
 
