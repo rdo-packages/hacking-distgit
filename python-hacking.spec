@@ -58,7 +58,7 @@ https://bugs.launchpad.net/hacking/+bug/1652409 for details.
 Summary:        OpenStack Hacking Guideline Enforcement
 %{?python_provide:%python_provide python3-%{pypi_name}}
 
-BuildRequires:  git
+BuildRequires:  git-core
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-pbr
