@@ -112,7 +112,7 @@ rm -rf {test-,}requirements.txt
 # generate html docs
 sphinx-build-3 -W -b html doc/source doc/build/html
 # remove the sphinx-build-3 leftovers
-rm -rf doc/build/html/.{doctrees,buildinfo}
+rm -rf doc/build/html/.{doctrees,buildinfo} doc/build/html/objects.inv
 %endif
 
 %install
