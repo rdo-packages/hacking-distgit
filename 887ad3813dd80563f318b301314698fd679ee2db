@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed60d61_78d59c90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2022-02-28T13:52:40Z",
+      "side": 1,
+      "message": "- nothing provides python3-flake8 \u003e\u003d 3.8.0 needed by python3-hacking-4.1.1-0.20220228093753.e42996f.el8.noarch\n\nSo, you can see that we don\u0027t have python3-flake8 \u003e\u003d 3.8.0 in RDO.\nCurrently, we have 3.7.7 [1], so we should build 3.8.0 version.\n\nBut I think we won\u0027t have time to ship it in Yoga release, let\u0027s see\nif we manage to build and promote it before we cut branches for Yoga.\n\n\n\n[1] https://trunk.rdoproject.org/centos8-master/deps/latest/noarch/python3-flake8-3.7.7-6.el8.noarch.rpm",
+      "revId": "887ad3813dd80563f318b301314698fd679ee2db",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
