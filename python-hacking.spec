@@ -15,8 +15,8 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-%{pypi_name}
-Version:        XXX
-Release:        XXX
+Version:        4.1.0
+Release:        1%{?dist}
 Summary:        OpenStack Hacking Guideline Enforcement
 
 License:        ASL 2.0
@@ -134,3 +134,6 @@ rm -rf doc/build/html/.{doctrees,buildinfo} doc/build/html/objects.inv
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+* Fri Sep 09 2022 RDO <dev@lists.rdoproject.org> 4.1.0-1
+- Update to 4.1.0
+
