@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fdfc218_f987c738",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2022-09-09T09:45:44Z",
+      "side": 1,
+      "message": "hacking is pinned to same commit since a long time, see below:\nrdopkg findpkg python-hacking\n[...]\ntags:\n  ocata:\n    source-branch: f733b3133e2c5371cd109485903405f15e0db21e\n  pike:\n    source-branch: 59c9c41394b28df4f5670eacec57f5ab79fc85da\n  queens:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  rocky:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  stein:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  train:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  ussuri:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  victoria:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  wallaby:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  xena:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  yoga:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n  zed: null\n  zed-uc:\n    source-branch: 865398f0c9a20883ef1ab68a9f80ffd74b9098e8\n\nSo we wan cross-tag it",
+      "revId": "dd56a869cbcf51450b6c4fd8e8234814e181df5d",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
