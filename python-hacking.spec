@@ -66,7 +66,6 @@ BuildRequires:  python3-subunit
 BuildRequires:  python3-testrepository
 BuildRequires:  python3-testscenarios
 BuildRequires:  python3-testtools
-BuildRequires:  python3-six
 BuildRequires:  python3-mock
 BuildRequires:  python3-flake8
 %if 0%{?with_doc}
@@ -78,7 +77,6 @@ BuildRequires:  python3-mccabe
 
 Requires: python3-pbr
 Requires: python3-flake8 >= 4.0.1
-Requires: python3-six
 Requires: python3-pyflakes
 
 %description -n python3-%{pypi_name}
