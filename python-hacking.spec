@@ -13,13 +13,15 @@
 %global common_desc OpenStack Hacking Guideline Enforcement
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
+# we are excluding some BRs from automatic generator
+%global excluded_brs doc8 bandit pre-commit hacking flake8-import-order
 
 Name:           python-%{pypi_name}
 Version:        XXX
 Release:        XXX
 Summary:        OpenStack Hacking Guideline Enforcement
 
-License:        ASL 2.0
+License:        Apache-2.0
 URL:            http://github.com/openstack-dev/hacking
 Source0:        https://tarballs.openstack.org/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 # Required for tarball sources verification
@@ -56,28 +58,10 @@ https://bugs.launchpad.net/hacking/+bug/1652409 for details.
 
 %package -n python3-%{pypi_name}
 Summary:        OpenStack Hacking Guideline Enforcement
-%{?python_provide:%python_provide python3-%{pypi_name}}
 
 BuildRequires:  git-core
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-pbr
-BuildRequires:  python3-subunit
-BuildRequires:  python3-testrepository
-BuildRequires:  python3-testscenarios
-BuildRequires:  python3-testtools
-BuildRequires:  python3-mock
-BuildRequires:  python3-flake8
-%if 0%{?with_doc}
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-openstackdocstheme
-%endif
-BuildRequires:  python3-pyflakes
-BuildRequires:  python3-mccabe
-
-Requires: python3-pbr
-Requires: python3-flake8 >= 4.0.1
-Requires: python3-pyflakes
+BuildRequires:  pyproject-rpm-macros
 
 %description -n python3-%{pypi_name}
 %{common_desc}
@@ -101,24 +85,44 @@ sed -i '1d' hacking/core.py
 # remove /usr/bin/env from tests/test_doctest.py
 sed -i '1d' hacking/tests/test_doctest.py
 
-rm -rf {test-,}requirements.txt
+
+sed -i /.*-c{env:TOX_CONSTRAINTS_FILE.*/d tox.ini
+sed -i /^minversion.*/d tox.ini
+sed -i /^requires.*virtualenv.*/d tox.ini
+
+# Exclude some bad-known BRs
+for pkg in %{excluded_brs};do
+  for reqfile in doc/requirements.txt test-requirements.txt; do
+    if [ -f $reqfile ]; then
+      sed -i /^${pkg}.*/d $reqfile
+    fi
+  done
+done
+
+# Automatic BR generation
+%generate_buildrequires
+%if 0%{?with_doc}
+  %pyproject_buildrequires -t -e %{default_toxenv},docs
+%else
+  %pyproject_buildrequires -t -e %{default_toxenv}
+%endif
 
 %build
-%{py3_build}
+%pyproject_wheel
 
 %if 0%{?with_doc}
 # generate html docs
-sphinx-build-3 -W -b html doc/source doc/build/html
+%tox -e docs
 # remove the sphinx-build-3 leftovers
 rm -rf doc/build/html/.{doctrees,buildinfo} doc/build/html/objects.inv
 %endif
 
 %install
-%{py3_install}
+%pyproject_install
 
 %check
 %if 0%{?with_tests}
-%{__python3} setup.py test
+%tox -e %{default_toxenv}
 %endif
 
 %files -n python3-%{pypi_name}
@@ -128,7 +132,7 @@ rm -rf doc/build/html/.{doctrees,buildinfo} doc/build/html/objects.inv
 %doc README.rst
 %endif
 %license LICENSE
-%{python3_sitelib}/*.egg-info
+%{python3_sitelib}/*.dist-info
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
