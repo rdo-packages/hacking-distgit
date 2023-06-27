@@ -136,3 +136,4 @@ rm -rf doc/build/html/.{doctrees,buildinfo} doc/build/html/objects.inv
 %{python3_sitelib}/%{pypi_name}
 
 %changelog
+# REMOVEME: error caused by commit https://opendev.org/openstack-dev/hacking/commit/865398f0c9a20883ef1ab68a9f80ffd74b9098e8
