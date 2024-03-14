@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa59afd_56155444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 635
+      },
+      "writtenOn": "2024-03-14T13:37:49Z",
+      "side": 1,
+      "message": "Problem: nothing provides requested (python3dist(flake8) \u003e\u003d 6.1 with python3dist(flake8) \u003c 6.2)",
+      "revId": "2174eb4b71e6a9830ec11a6ef1db46aa41d1e15e",
+      "serverId": "270e2033-b340-4cff-9539-693957ebf0e7"
+    }
+  ]
+}
