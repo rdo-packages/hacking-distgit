@@ -86,6 +86,11 @@ sed -i '1d' hacking/core.py
 sed -i '1d' hacking/tests/test_doctest.py
 
 
+# TODO(jcapitao): remove the line below once flake8 6.1.0 is build in Fedora and
+# RDO https://src.fedoraproject.org/rpms/python-flake8/pull-request/14
+sed -i "s/flake8.*/flake8/" requirements.txt
+
+
 sed -i /.*-c{env:TOX_CONSTRAINTS_FILE.*/d tox.ini
 sed -i /^minversion.*/d tox.ini
 sed -i /^requires.*virtualenv.*/d tox.ini
