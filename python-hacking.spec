@@ -41,6 +41,12 @@ Source102:        https://releases.openstack.org/_static/%{sources_gpg_sign}.txt
 # feature. Only apply on releases with flake8 3.x.
 #Patch1:         0002-Disable-local-checks.patch
 %endif
+
+%if 0%{?fedora}
+# FIXME(hiwkby) a patch that does not require eventlet
+# Actually, eventlet is not needed for unittests
+Patch1:         test-requirements.txt.patch
+%endif
 BuildArch:      noarch
 
 # Required for tarball sources verification
@@ -62,6 +68,9 @@ Summary:        OpenStack Hacking Guideline Enforcement
 BuildRequires:  git-core
 BuildRequires:  python3-devel
 BuildRequires:  pyproject-rpm-macros
+BuildRequires:  python3dist(wheel)
+BuildRequires:  python3dist(pbr)
+BuildRequires:  python3dist(tox-current-env)
 
 %description -n python3-%{pypi_name}
 %{common_desc}
